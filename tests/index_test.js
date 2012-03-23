@@ -4,26 +4,26 @@ var assert = require('assert')
 var _ = require('underscore')
 
 var restify = require('restify')
-var settings = require('../../../config').settings
+var settings = require(process.cwd() + '/config').settings
 
 var mongoose = require('mongoose')
 var dropCollections = require('mongoose-tools').helpers(mongoose).dropCollections
 
-var Project = require('../../../lib/server/models/project')
-var System = require('../../../lib/server/models/system')
-var Module = require('../../../lib/server/models/module')
+var Project = require(process.cwd() + '/models/project')
+var System = require(process.cwd() + '/models/system')
+var Module = require(process.cwd() + '/models/module')
 
+var dummySubmission = require('./fixtures/package_info.json')
+var EmpireServer = require(process.cwd() + '/index')
 
 describe('server', function() {
-  var CensusServer = require('../../../lib/server')
-  var CensusClient = require('../../../lib/client')
   var client, server
   describe('remote operations', function() {
     var oldCwd, server
     before(function(done) {
       oldCwd = process.cwd()
       process.chdir('./tests/fixtures/fixture_module')
-      server = CensusServer.boot(done)
+      server = EmpireServer.boot(done)
     })
     after(function(done) {
       process.chdir(oldCwd)
@@ -44,15 +44,14 @@ describe('server', function() {
           done()
         })
       })
-      it('server has the name "CensusServer"', function() {
-        assert.equal(response.headers.server, 'CensusServer')
+      it('server has the name "EmpireServer"', function() {
+        assert.equal(response.headers.server, 'EmpireServer')
       })
       it('server has a version', function() {
         assert.ok(response.headers['x-api-version'])
       })
     })
     describe('handling submissions', function() {
-      var dummySubmission = require('../../fixtures/package_info.json')
       beforeEach(function(done) {
         dropCollections(done)
       })

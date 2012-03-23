@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-var server = require('../index').Server
+var server = require('./index')
 server.boot()

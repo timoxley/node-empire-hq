@@ -3,10 +3,10 @@
 var assert = require('assert')
 
 var mongoose = require('mongoose')
-var config = require('../../../../config')
+var config = require(process.cwd() + '/config')
 var dropCollections = require('mongoose-tools').helpers(mongoose).dropCollections
 
-var System = require(process.cwd() + '/lib/server/models/system')
+var System = require(process.cwd() + '/models/system')
 
 describe('system', function() {
   describe('submit', function() {
